@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35806.99 d17.13
+VisualStudioVersion = 17.13.35806.99
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReleyeCase.Mvc", "ReleyeCase.Mvc\ReleyeCase.Mvc.csproj", "{A1B978F3-74E3-4426-8DDE-7C5B2BEE3639}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReleyeCase.DbContext", "ReleyeCase.DbContext\ReleyeCase.DbContext.csproj", "{AD04FF83-44A1-4352-BB12-39ABAEE484DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReleyeCase.Data", "ReleyeCase.DbContext\ReleyeCase.Data.csproj", "{AD04FF83-44A1-4352-BB12-39ABAEE484DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "Repositories\Repositories.csproj", "{7CAC52C4-801A-4979-A817-DB0BB59C212B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{AD04FF83-44A1-4352-BB12-39ABAEE484DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD04FF83-44A1-4352-BB12-39ABAEE484DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD04FF83-44A1-4352-BB12-39ABAEE484DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CAC52C4-801A-4979-A817-DB0BB59C212B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CAC52C4-801A-4979-A817-DB0BB59C212B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CAC52C4-801A-4979-A817-DB0BB59C212B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CAC52C4-801A-4979-A817-DB0BB59C212B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

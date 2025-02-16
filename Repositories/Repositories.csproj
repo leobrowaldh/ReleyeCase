@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ReleyeCase.DbContext\ReleyeCase.Data.csproj" />
+  </ItemGroup>
+
 </Project>

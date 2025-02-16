@@ -1,6 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using ReleyeCase.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddDbContext<ReleyeDbContext>(
+    options =>
+        options.UseSqlServer(
+            builder.Configuration.GetConnectionString("WebPushAppConecction")));
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
