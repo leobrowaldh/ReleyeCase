@@ -1,11 +1,26 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ReleyeCase.Data;
 using ReleyeCase.Data.DbModels;
+using System.Collections.Concurrent;
 
 namespace Repositories;
 
-public class CustomerRepository(ReleyeDbContext _context) : ICustomerRepository
+public class CustomerRepository: ICustomerRepository
 {
+    private static ConcurrentDictionary<Guid, Customer>? customersCache;
+    private readonly ReleyeDbContext _context;
+
+    public CustomerRepository(ReleyeDbContext context)
+    {
+        _context = context;
+
+        // Pre-load customers from database and convert to a thread-safe ConcurrentDictionary.
+        if (customersCache is null)
+        {
+            customersCache = new ConcurrentDictionary<Guid, Customer>(
+            _context.Customers.Include(c => c.Address).ToDictionary(c => c.CustomerId));
+        }
+    }
     public async Task<Customer> CreateCustomer(Customer customer)
     {
         // Check if the address already exists
@@ -19,7 +34,10 @@ public class CustomerRepository(ReleyeDbContext _context) : ICustomerRepository
         _context.Customers.Add(customer);
         await _context.SaveChangesAsync();
 
-        return customer;
+        if (customersCache is null) return customer;
+        // If the customer is new, add it to cache, else
+        // call UpdateCache method.
+        return customersCache.AddOrUpdate(customer.CustomerId, customer, UpdateCache);
     }
 
     private async Task<Address?> CheckIfAddressExists(Address? address)
@@ -37,6 +55,22 @@ public class CustomerRepository(ReleyeDbContext _context) : ICustomerRepository
                 (a.ZipCode != null && address.ZipCode != null && a.ZipCode.ToLower() == address.ZipCode.ToLower()));
     }
 
+    private Customer UpdateCache(Guid id, Customer c)
+    {
+        Customer? old;
+        if (customersCache is not null)
+        {
+            if (customersCache.TryGetValue(id, out old))
+            {
+                if (customersCache.TryUpdate(id, c, old))
+                {
+                    return c;
+                }
+            }
+        }
+        return null!;
+    }
+
     public Task<Customer> DeleteCustomer(Guid id)
     {
         throw new NotImplementedException();
@@ -47,10 +81,10 @@ public class CustomerRepository(ReleyeDbContext _context) : ICustomerRepository
         throw new NotImplementedException();
     }
 
-    public async Task<List<Customer>> GetCustomers()
+    public Task<List<Customer>> GetCustomers()
     {
-        var customers = await _context.Customers.Include(c => c.Address).ToListAsync();
-        return customers ?? [];
+        return Task.FromResult(customersCache is null
+                    ? new List<Customer>() : customersCache.Values.ToList());
     }
 
     public Task<Customer> UpdateCustomer(Customer customer)
