@@ -24,7 +24,7 @@ public class CustomerRepository: ICustomerRepository
     public async Task<Customer> CreateCustomer(Customer customer)
     {
         // Check if the address already exists
-        var existingAddress = await CheckIfAddressExists(customer.Address);
+        var existingAddress = CheckIfAddressExists(customer.Address);
 
         if (existingAddress != null)
         {
@@ -40,19 +40,26 @@ public class CustomerRepository: ICustomerRepository
         return customersCache.AddOrUpdate(customer.CustomerId, customer, UpdateCache);
     }
 
-    private async Task<Address?> CheckIfAddressExists(Address? address)
+    private static Address? CheckIfAddressExists(Address? address)
     {
         if (address == null)
         {
             return null;
         }
 
-        return await _context.Addresses
-            .FirstOrDefaultAsync(a =>
-                a.Country.ToLower() == address.Country.ToLower() &&
-                a.City.ToLower() == address.City.ToLower() &&
-                (a.Street != null && address.Street != null && a.Street.ToLower() == address.Street.ToLower()) &&
-                (a.ZipCode != null && address.ZipCode != null && a.ZipCode.ToLower() == address.ZipCode.ToLower()));
+        // Check for the address in the cache:
+        var cachedCustomer = customersCache?.Values.FirstOrDefault(c =>
+            c.Address != null &&
+            c.Address.Country.ToLower() == address.Country.ToLower() &&
+            c.Address.City.ToLower() == address.City.ToLower() &&
+            (c.Address.Street != null && address.Street != null && c.Address.Street.ToLower() == address.Street.ToLower()) &&
+            (c.Address.ZipCode != null && address.ZipCode != null && c.Address.ZipCode.ToLower() == address.ZipCode.ToLower()));
+
+        if (cachedCustomer != null)
+        {
+            return cachedCustomer.Address;
+        }
+        return null;
     }
 
     private Customer UpdateCache(Guid id, Customer c)
@@ -83,8 +90,8 @@ public class CustomerRepository: ICustomerRepository
 
     public Task<List<Customer>> GetCustomers()
     {
-        return Task.FromResult(customersCache is null
-                    ? new List<Customer>() : customersCache.Values.ToList());
+        //We wrap the result in a task to comply with the interface, that expects a task.
+        return Task.FromResult(customersCache?.Values.ToList() ?? []);
     }
 
     public Task<Customer> UpdateCustomer(Customer customer)
