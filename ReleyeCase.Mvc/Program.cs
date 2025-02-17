@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ReleyeCase.Data;
+using Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,9 @@ builder.Services.AddDbContext<ReleyeDbContext>(
             builder.Configuration.GetConnectionString("WebPushAppConecction")));
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 
 var app = builder.Build();
 

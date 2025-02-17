@@ -27,5 +27,5 @@ public partial class Customer
 
     [ForeignKey("AddressId")]
     [InverseProperty("Customers")]
-    public virtual Address? Address { get; set; }
+    public virtual Address? Address { get; set; } = new Address();
 }

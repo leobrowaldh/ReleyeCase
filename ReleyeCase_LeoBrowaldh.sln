@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReleyeCase.Data", "ReleyeCa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "Repositories\Repositories.csproj", "{7CAC52C4-801A-4979-A817-DB0BB59C212B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTOs", "DTOs\DTOs.csproj", "{8CFC5B94-5B03-4EB0-8C4A-3BDD762E1AC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{7CAC52C4-801A-4979-A817-DB0BB59C212B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CAC52C4-801A-4979-A817-DB0BB59C212B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CAC52C4-801A-4979-A817-DB0BB59C212B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CFC5B94-5B03-4EB0-8C4A-3BDD762E1AC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CFC5B94-5B03-4EB0-8C4A-3BDD762E1AC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CFC5B94-5B03-4EB0-8C4A-3BDD762E1AC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CFC5B94-5B03-4EB0-8C4A-3BDD762E1AC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
